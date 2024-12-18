@@ -1,6 +1,6 @@
 FROM alpine
 
-LABEL org.opencontainers.image.source=https://github.com/superfly101/hello-world-ghrc
+LABEL org.opencontainers.image.source=https://github.com/superfly101/hello-world-ghcr
 LABEL org.opencontainers.image.description="Hello World Docker Image"
 LABEL org.opencontainers.image.licenses=MIT
 
