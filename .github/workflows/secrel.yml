@@ -45,8 +45,12 @@ jobs:
       - name: Sign the published container image
         env:
           COSIGN_EXPERIMENTAL: 1
-          COSIGN_TUF_ROOT: /tmp/cosign-root
+          SIGSTORE_ROOT_FILE: /tmp/sigstore-root.json
         run: |
-          mkdir -p /tmp/cosign-root
-          cosign initialize
-          cosign sign --yes ghcr.io/${{ github.repository }}@${{ github.event.registry_package.package_version.container_metadata.tag.digest }}
+          # Download the root file directly
+          curl -o /tmp/sigstore-root.json https://raw.githubusercontent.com/sigstore/root-signing/main/repository/repository/1.root.json
+
+          # Sign the image
+          cosign sign --yes \
+            --root-cert=/tmp/sigstore-root.json \
+            ghcr.io/${{ github.repository }}@${{ github.event.registry_package.package_version.container_metadata.tag.digest }}
